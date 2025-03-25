@@ -2,12 +2,6 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/Nandiniii4/college-projects.git'
-            }
-        }
-
         stage('Linting') {
             steps {
                 echo 'Checking HTML, CSS, and JavaScript files in project1...'
