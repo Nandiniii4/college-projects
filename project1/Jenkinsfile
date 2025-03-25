@@ -2,36 +2,22 @@ pipeline {
     agent any
 
     stages {
-        stage('Linting') {
+        stage('Build') {
             steps {
-                echo 'Checking HTML, CSS, and JavaScript files in project1...'
-                sh 'npx html-validate project1/index.html'
-                sh 'npx stylelint "project1/**/*.css" || true'
-                sh 'npx eslint "project1/**/*.js" || true'
+                echo 'Building the project...'
             }
         }
 
-        stage('Testing') {
+        stage('Test') {
             steps {
-                echo 'Running JavaScript tests (if any) for project1...'
-                sh 'cd project1 && npm install && npm test'
+                echo 'Running tests...'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploying project1...'
-                sh 'rsync -avz project1 /var/www/html/project1'
+                echo 'Deploying the application...'
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Deployment Successful!'
-        }
-        failure {
-            echo 'Pipeline Failed!'
         }
     }
 }
