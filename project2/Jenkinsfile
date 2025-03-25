@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/Nandiniii4/college-projects.git'
+            }
+        }
+
+        stage('Linting') {
+            steps {
+                echo 'Checking HTML, CSS, and JavaScript files in project2...'
+                sh 'npx html-validate project2/index.html'
+                sh 'npx stylelint "project2/**/*.css" || true'
+                sh 'npx eslint "project2/**/*.js" || true'
+            }
+        }
+
+        stage('Testing') {
+            steps {
+                echo 'Running JavaScript tests (if any) for project2...'
+                sh 'cd project2 && npm install && npm test'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying project2...'
+                sh 'rsync -avz project2 /var/www/html/project2'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Deployment Successful!'
+        }
+        failure {
+            echo 'Pipeline Failed!'
+        }
+    }
+}
